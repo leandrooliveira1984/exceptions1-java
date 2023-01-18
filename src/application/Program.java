@@ -39,9 +39,9 @@ public class Program {
 			
 			Date now = new Date(); // Instanciar data do sistema
 			if (checkIn.before(now) || checkOut.before(now)) { // se a data de In ou Out foram antes de agora
-				System.out.println("Error in reservation: Reservation dates for update must be future dates");
+				System.out.println("Error in reservation: Reservation dates for update must be future dates! ");
 			}
-			else if (!checkOut.after(checkIn)) { //O .after é uma função do Java que calcula se a data "out" é depois da "in"
+			else if (!checkOut.after(checkIn)) { //O .after é uma função do Java que calcula se a data "In" é depois da "Out"
 				System.out.println("Error in reservation: Check-out date must be after check-in date");
 			}
 			else {			
