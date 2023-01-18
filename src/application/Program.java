@@ -23,7 +23,7 @@ public class Program {
 		System.out.print("Check-out date (dd/MM/yyyy): ");
 		Date checkOut = sdf.parse(sc.next());
 
-		if (!checkOut.after(checkIn)) { //O .after é uma função do Java que calcula se a data "out" é depois da "in"
+		if (!checkOut.after(checkIn)) { //O "! " .after é uma função do Java que calcula se a data "out" é depois da "in"
 			System.out.println("Error in reservation: Check-out date must be after check-in date");
 		}
 		else {
@@ -36,17 +36,13 @@ public class Program {
 			checkIn = sdf.parse(sc.next());
 			System.out.print("Check-out date (dd/MM/yyyy): ");
 			checkOut = sdf.parse(sc.next());
-			
-			Date now = new Date(); // Instanciar data do sistema
-			if (checkIn.before(now) || checkOut.before(now)) { // se a data de In ou Out foram antes de agora
-				System.out.println("Error in reservation: Reservation dates for update must be future dates! ");
+									
+			String error = reservation.updateDates(checkIn, checkOut);
+			if (error != null) {
+				System.out.println("Erro in reservation: " + error);			
 			}
-			else if (!checkOut.after(checkIn)) { //O .after é uma função do Java que calcula se a data "In" é depois da "Out"
-				System.out.println("Error in reservation: Check-out date must be after check-in date");
-			}
-			else {			
-			reservation.updateDates(checkIn, checkOut);			
-			System.out.println("Reservation: " + reservation);
+			else {
+				System.out.println("Reservation: " + reservation);
 			}
 		}
 

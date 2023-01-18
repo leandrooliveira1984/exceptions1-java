@@ -43,9 +43,18 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS); 
 	}   // função do java que converte o "diff" de MILISECONDS para DAYS.
 	
-	public void updateDates (Date checkIn, Date checkOut) {
+	public String updateDates (Date checkIn, Date checkOut) {
+		Date now = new Date(); // Instanciar data do sistema
+		
+		if (checkIn.before(now) || checkOut.before(now)) { // se a data de In ou Out foram antes de agora
+			return " Reservation dates for update must be future dates";
+		}
+		if (!checkOut.after(checkIn)) { //O .after é uma função do Java que calcula se a data "In" é depois da "Out"
+			return " Check-out date must be after check-in date";
+		}		
 		this.checkIn = checkIn;
-		this.checkOut = checkOut; 
+		this.checkOut = checkOut;
+		return null;
 	}
 	
 	@Override
