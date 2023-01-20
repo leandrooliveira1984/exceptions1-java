@@ -1,8 +1,11 @@
 package model.entities;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import model.exceptions.DomainException;
 
 public class Reservation {
 
@@ -17,6 +20,9 @@ public class Reservation {
 	}
 
 	public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
+		if (!checkOut.after(checkIn)) { //O .after é uma função do Java que calcula se a data "In" é depois da "Out"
+			throw new DomainException("Check-out date must be after check-in date.");
+		}	
 		this.roomNumber = roomNumber;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -43,18 +49,17 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS); 
 	}   // função do java que converte o "diff" de MILISECONDS para DAYS.
 	
-	public String updateDates (Date checkIn, Date checkOut) {
+	public void updateDates (Date checkIn, Date checkOut) {
 		Date now = new Date(); // Instanciar data do sistema
 		
 		if (checkIn.before(now) || checkOut.before(now)) { // se a data de In ou Out foram antes de agora
-			return " Reservation dates for update must be future dates";
+			throw new DomainException("Reservation dates for update must be future dates.");
 		}
 		if (!checkOut.after(checkIn)) { //O .after é uma função do Java que calcula se a data "In" é depois da "Out"
-			return " Check-out date must be after check-in date";
+			throw new DomainException("Check-out date must be after check-in date.");
 		}		
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
-		return null;
 	}
 	
 	@Override
@@ -69,4 +74,5 @@ public class Reservation {
 				+ duration()
 				+ " nigths.";				
 	}
+	
 }
